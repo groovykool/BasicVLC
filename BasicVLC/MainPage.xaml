@@ -1,0 +1,74 @@
+﻿<Page x:Class="BasicVLC.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:BasicVLC"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:shared="using:LibVLCSharp.Platforms.UWP"
+      mc:Ignorable="d"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="200" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <shared:VideoView x:Name="VideoView"
+                      Grid.Row="1"
+                      Grid.Column="0"
+                      Margin="8">
+
+    </shared:VideoView>
+    <shared:VideoView x:Name="VideoView2"
+                      Grid.Row="2"
+                      Grid.Column="0"
+                      Margin="8">
+
+    </shared:VideoView>
+    <StackPanel Orientation="Horizontal"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top">
+      <Button x:Name="Play"
+              Margin="8"
+              HorizontalAlignment="Left"
+              VerticalAlignment="Top"
+              Content="Play"
+              Click="Play_Click" />
+      <Button x:Name="Pause"
+              Margin="8"
+              VerticalAlignment="Top"
+              Content="Pause"
+              Click="Pause_Click" />
+      <Button x:Name="Stop"
+              Margin="8"
+              VerticalAlignment="Top"
+              Content="Stop"
+              Click="Stop_Click" />
+      <StackPanel Orientation="Vertical" Margin="4"
+                  VerticalAlignment="Top">
+        <Button x:Name="Snapshot"
+                Margin="4"
+                Content="Snapshot"
+                Click="Snapshot_Click" />
+        <TextBox x:Name="snapPath"
+                 Margin="8"
+                 MinWidth="250"
+                 Header="Snapshot Path"
+                 Text="C:\Users\groov\Pictures" />
+        <TextBlock x:Name="Returned"
+                   Margin="8" />
+      </StackPanel>
+      <Button x:Name="SaveTest"
+             
+              Margin="8"
+              VerticalAlignment="Top"
+              Content="SaveTest"
+              Click="SaveTest_Click" />
+    </StackPanel>
+  </Grid>
+</Page>
