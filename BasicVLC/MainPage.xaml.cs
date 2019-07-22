@@ -56,15 +56,16 @@ namespace BasicVLC
 
         private async void SaveTest_Click(object sender, RoutedEventArgs e)
         {
-            StorageFolder storageFolder = await KnownFolders.GetFolderForUserAsync(null /* current user */, KnownFolderId.PicturesLibrary);
+            //StorageFolder storageFolder = await KnownFolders.GetFolderForUserAsync(null /* current user */, KnownFolderId.PicturesLibrary);
             var filename = "samplevlc.dat";
             var filename2 = "samplevlc2.dat";
 
             var pathstring = @"C:\Users\groov\Pictures\";
             StorageFolder picfolder = await StorageFolder.GetFolderFromPathAsync(pathstring);
+            StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(@"C:\Users\groov\");
             try
             {
-                var sampleFile = await storageFolder.CreateFileAsync(filename, CreationCollisionOption.ReplaceExisting);
+                var sampleFile = await folder.CreateFileAsync(filename, CreationCollisionOption.ReplaceExisting);
                 var sampleFile2 = await picfolder.CreateFileAsync(filename2, CreationCollisionOption.ReplaceExisting);
             }
             catch (Exception ex)
@@ -86,6 +87,7 @@ namespace BasicVLC
             Loaded += (s, e) =>
             {
                 _libVLC = new LibVLC(VideoView.SwapChainOptions);
+                _libVLC.Log += (sender, ee) => Debug.WriteLine($"[{ee.Level}] {ee.Module}:{ee.Message}");
                 _mediaPlayer = new MediaPlayer(_libVLC);
                 VideoView.MediaPlayer = _mediaPlayer;
                 //this._mediaPlayer.Play(new Media(_libVLC, "https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4", FromType.FromLocation));

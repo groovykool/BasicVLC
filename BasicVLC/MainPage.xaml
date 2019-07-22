@@ -54,7 +54,7 @@
                  Margin="8"
                  MinWidth="250"
                  Header="Snapshot Path"
-                 Text="C:\Users\groov\Pictures" />
+                 Text="C:\Users\groov\" />
         <TextBlock x:Name="Returned"
                    Margin="8" />
       </StackPanel>
