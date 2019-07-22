@@ -23,12 +23,7 @@
                       Margin="8">
 
     </shared:VideoView>
-    <shared:VideoView x:Name="VideoView2"
-                      Grid.Row="2"
-                      Grid.Column="0"
-                      Margin="8">
-
-    </shared:VideoView>
+    
     <StackPanel Orientation="Horizontal"
                 Grid.Column="0"
                 HorizontalAlignment="Left"
