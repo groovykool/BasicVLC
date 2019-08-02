@@ -42,38 +42,25 @@ namespace BasicVLC
             _mediaPlayer.Play();
         }
 
-        private void  Snapshot_Click(object sender, RoutedEventArgs e)
+        private async void  Snapshot_Click(object sender, RoutedEventArgs e)
         {
-            //
-            Returned.Text = "";
-            //var pathstring = @"C:\Users\groov\Pictures\";
-            var pathstring = snapPath.Text;
+            //Get path for temporary folder for this app package
+            StorageFolder tempFolder = ApplicationData.Current.TemporaryFolder;
+            //create path and filename for libVLC method
+            var pathstring = tempFolder.Path + "\\tempsnap.png";
+
+            //save snapshot in temporary folder
             var bb=_mediaPlayer.TakeSnapshot(0,pathstring,0,0);
-            Thread.Sleep(1000);
-            Returned.Text = "Returned:  " + bb.ToString();
-     
-        }
+            
+            //copy file to Pictures Library
+            StorageFile tempImage = await tempFolder.GetFileAsync("tempsnap.png");
+            StorageFolder picFolder = KnownFolders.PicturesLibrary;
+            StorageFile copiedFile = await tempImage.CopyAsync(picFolder, "snap.png", NameCollisionOption.ReplaceExisting);
+            
+            
+    }
 
-        private async void SaveTest_Click(object sender, RoutedEventArgs e)
-        {
-            //StorageFolder storageFolder = await KnownFolders.GetFolderForUserAsync(null /* current user */, KnownFolderId.PicturesLibrary);
-            var filename = "samplevlc.dat";
-            var filename2 = "samplevlc2.dat";
-
-            var pathstring = @"C:\Users\groov\Pictures\";
-            StorageFolder picfolder = await StorageFolder.GetFolderFromPathAsync(pathstring);
-            StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(@"C:\Users\groov\");
-            try
-            {
-                var sampleFile = await folder.CreateFileAsync(filename, CreationCollisionOption.ReplaceExisting);
-                var sampleFile2 = await picfolder.CreateFileAsync(filename2, CreationCollisionOption.ReplaceExisting);
-            }
-            catch (Exception ex)
-            {
-                // I/O errors are reported as exceptions.
-                Debug.WriteLine(ex.ToString());
-            }
-        }
+       
 
         private void Pause_Click(object sender, RoutedEventArgs e)
         {

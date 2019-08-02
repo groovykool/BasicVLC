@@ -48,22 +48,11 @@
                   VerticalAlignment="Top">
         <Button x:Name="Snapshot"
                 Margin="4"
-                Content="Snapshot"
+                Content="Snapshot to Pictures"
                 Click="Snapshot_Click" />
-        <TextBox x:Name="snapPath"
-                 Margin="8"
-                 MinWidth="250"
-                 Header="Snapshot Path"
-                 Text="C:\Users\groov\" />
-        <TextBlock x:Name="Returned"
-                   Margin="8" />
+        
       </StackPanel>
-      <Button x:Name="SaveTest"
-             
-              Margin="8"
-              VerticalAlignment="Top"
-              Content="SaveTest"
-              Click="SaveTest_Click" />
+      
     </StackPanel>
   </Grid>
 </Page>
