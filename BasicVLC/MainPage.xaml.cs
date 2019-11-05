@@ -77,15 +77,20 @@ namespace BasicVLC
         _libVLC.Log += (sender, ee) => Debug.WriteLine($"[{ee.Level}] {ee.Module}:{ee.Message}");
         _mediaPlayer = new MediaPlayer(_libVLC);
         VideoView.MediaPlayer = _mediaPlayer;
-              //this._mediaPlayer.Play(new Media(_libVLC, "https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4", FromType.FromLocation));
-              //rtsp://b1.dnsdojo.com:1935/live/sys3.stream
+        //this._mediaPlayer.Play(new Media(_libVLC, "https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4", FromType.FromLocation));
+        //rtsp://b1.dnsdojo.com:1935/live/sys3.stream
         //_mediaPlayer.Volume = 0;
-        _mediaPlayer.Play(new Media(_libVLC, "http://video.ch9.ms/ch9/70cc/83e17e76-8be8-441b-b469-87cf0e6a70cc/ASPNETwithScottHunter_high.mp4", FromType.FromLocation));
+        //var mmm = new Media(_libVLC, "http://video.ch9.ms/ch9/70cc/83e17e76-8be8-441b-b469-87cf0e6a70cc/ASPNETwithScottHunter_high.mp4", FromType.FromLocation);
+        var mmm = new Media(_libVLC, "rtsp://:@tonyw.selfip.com:6002/cam/realmonitor?channel=1&subtype=0&unicast=true&proto=Onvif", FromType.FromLocation);
+        mmm.AddOption($":rtsp-tcp");
+
+        mmm.AddOption($":network-caching=1200");
+        _mediaPlayer.Play(mmm);
         _mediaPlayer.Mute = true;
         _mediaPlayer.Buffering += (ss, ee) =>
         {
-          _mediaPlayer.Mute = true;
-         
+          _mediaPlayer.Volume = 0;
+
         };
 
       };
@@ -102,11 +107,13 @@ namespace BasicVLC
     private void Vol0_Click(object sender, RoutedEventArgs e)
     {
       _mediaPlayer.Mute = true;
+
     }
 
     private void Vol40_Click(object sender, RoutedEventArgs e)
     {
       _mediaPlayer.Mute = false;
+      _mediaPlayer.Volume = 80;
     }
   }
 }
