@@ -7,15 +7,11 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using LibVLCSharp.Shared;
 using Windows.Storage;
+using LibVLCSharp.Platforms.UWP;
 using System.Diagnostics;
-using System.Threading;
+
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -70,11 +66,13 @@ namespace BasicVLC
 
     public MainPage()
     {
+      //_libVLC = new LibVLC(VideoView.SwapChainOptions);
       InitializeComponent();
+      TestException();
       Loaded += (s, e) =>
       {
         _libVLC = new LibVLC(VideoView.SwapChainOptions);
-        _libVLC.Log += (sender, ee) => Debug.WriteLine($"[{ee.Level}] {ee.Module}:{ee.Message}");
+        //_libVLC.Log += (sender, ee) => Debug.WriteLine($"[{ee.Level}] {ee.Module}:{ee.Message}");
         _mediaPlayer = new MediaPlayer(_libVLC);
         VideoView.MediaPlayer = _mediaPlayer;
         //this._mediaPlayer.Play(new Media(_libVLC, "https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4", FromType.FromLocation));
@@ -83,7 +81,6 @@ namespace BasicVLC
         //var mmm = new Media(_libVLC, "http://video.ch9.ms/ch9/70cc/83e17e76-8be8-441b-b469-87cf0e6a70cc/ASPNETwithScottHunter_high.mp4", FromType.FromLocation);
         var mmm = new Media(_libVLC, "rtsp://:@tonyw.selfip.com:6002/cam/realmonitor?channel=1&subtype=0&unicast=true&proto=Onvif", FromType.FromLocation);
         mmm.AddOption($":rtsp-tcp");
-
         mmm.AddOption($":network-caching=1200");
         _mediaPlayer.Play(mmm);
         _mediaPlayer.Mute = true;
@@ -102,6 +99,61 @@ namespace BasicVLC
         this._libVLC.Dispose();
 
       };
+    }
+    private void TestException()
+    {
+      try    //Try1 
+      {
+        _libVLC = new LibVLC(VideoView.SwapChainOptions);
+        //_libVLC = new LibVLC("Bad Pass");
+        Message.Text = "No exception in Try1\n";
+      }
+      catch (Exception ex)
+      {
+        Debug.WriteLine(ex);
+        Message.Text += $"Try1 Exception:  {ex}\n"; 
+      }
+
+      try    //Try2
+      {
+        //VideoView2 = null;
+        var Bad = VideoView2.ActualHeight;
+        Message.Text += "No exception in Try2\n";
+      }
+      catch (Exception ex)
+      {
+        Debug.WriteLine(ex);
+        Message.Text += $"Try2 Exception:  {ex}\n";
+      }
+      try    //Try3
+      {
+        //VideoView2 = new VideoView();
+        VideoView2.Loaded += VideoView2_Loaded;
+        
+        var Bad = VideoView2.ActualHeight;
+        VideoView2.Height = 0;
+        Message.Text += "No exception in Try3\n";
+      }
+      catch (Exception ex)
+      {
+        Debug.WriteLine(ex);
+        Message.Text += $"Try3 Exception:  {ex}\n";
+      }
+
+
+    }
+
+    private void VideoView2_Loaded(object sender, RoutedEventArgs e)
+    {
+      //throw new NotImplementedException();
+      var l = new LibVLC(VideoView2.SwapChainOptions);
+      var m= new MediaPlayer(l);
+      VideoView2.MediaPlayer = m;
+      var md = new Media(l, "http://video.ch9.ms/ch9/70cc/83e17e76-8be8-441b-b469-87cf0e6a70cc/ASPNETwithScottHunter_high.mp4", FromType.FromLocation);
+      //var mmm = new Media(_libVLC, "rtsp://:@tonyw.selfip.com:6002/cam/realmonitor?channel=1&subtype=0&unicast=true&proto=Onvif", FromType.FromLocation);
+      md.AddOption($":rtsp-tcp");
+      md.AddOption($":network-caching=1200");
+      m.Play(md);
     }
 
     private void Vol0_Click(object sender, RoutedEventArgs e)

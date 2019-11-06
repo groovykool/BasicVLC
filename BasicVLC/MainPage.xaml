@@ -12,6 +12,8 @@
     <Grid.ColumnDefinitions>
       <ColumnDefinition
         Width="*" />
+      <ColumnDefinition
+        Width="*" />
     </Grid.ColumnDefinitions>
     <Grid.RowDefinitions>
       <RowDefinition
@@ -26,9 +28,15 @@
       Grid.Row="1"
       Grid.Column="0"
       Margin="8"></shared:VideoView>
+    <shared:VideoView
+      x:Name="VideoView2"
+      Grid.Row="1"
+      Grid.Column="1"
+      Margin="8"></shared:VideoView>
     <StackPanel
       Orientation="Horizontal"
-      Grid.Column="0"
+      Grid.ColumnSpan="2"
+      Grid.Row="0"
       HorizontalAlignment="Left"
       VerticalAlignment="Top">
       <Button
@@ -66,5 +74,11 @@
         Content="Volume Unmute"
         Click="Vol40_Click" />
     </StackPanel>
+    <TextBlock
+      x:Name="Message"
+      Grid.Row="2"
+      Margin="12"
+      Grid.ColumnSpan="2"
+      TextWrapping="Wrap"/>
   </Grid>
 </Page>
